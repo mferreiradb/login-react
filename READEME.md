@@ -82,6 +82,25 @@
         app.use(express.json());
         app.use(cors());
 
+- Dentro da função connect() chamada pelo db, executa-se a função desejada. A função deve ser executada na rota desejada
+
+        app.post('/cad', (req, res) => {
+        const email = req.body.email;
+        const senha = req.body.senha;
+
+        db.connect(function (err) {
+                if (err) throw err;
+                console.log("Connected!");
+                var sql = "SELECT * FROM users WHERE email = ?";
+                db.query(sql, [email], (err, result) => {
+                if (err) throw err;
+                console.log("1 record inserted");
+                res.send(result)
+                });
+                });
+                
+        })
+
 
 **CLIENT/FRONTEND**
 
@@ -90,7 +109,7 @@
 - A variável Axios executa o método http desejado, passando como valor o endpoint e um objeto com o nome do campo na tabela e de onde vem seu valor, através do parâmetro value, onde será indicado o nome do componente inserido no atributo name
 
         const handleClickCadastro = (values) => {
-        Axios.post('https://localhost:8080/login', {
+        Axios.post('https://localhost:8080/cad', {
         email: values.email,
         senha: values.password
         }).then((res) => {

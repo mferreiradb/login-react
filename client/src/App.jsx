@@ -7,9 +7,9 @@ function App() {
 
   const handleClickLogin = (values) => {};
   const handleClickCadastro = (values) => {
-    Axios.post('https://localhost:8080/login', {
+    Axios.post('http://localhost:8080/cad', {
       email: values.email,
-      senha: values.password
+      senha: values.senha
     }).then((res) => {
       console.log(res);
     });
@@ -18,14 +18,14 @@ function App() {
 
   const validationLogin = yup.object().shape({
     email: yup.string().email().required('Este campo é obrigatório'),
-    password: yup.string().min(8).required('Este campo é obrigatório'),
+    senha: yup.string().min(8).required('Este campo é obrigatório'),
   });
 
 
   const validationCadastro = yup.object().shape({
     email: yup.string().email().required('Este campo é obrigatório'),
-    password: yup.string().min(8).required('Este campo é obrigatório'),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'As senhas não são iguais'),
+    senha: yup.string().min(8).required('Este campo é obrigatório'),
+    confirmSenha: yup.string().oneOf([yup.ref('senha'), null], 'As senhas não são iguais'),
   });
 
   return (
@@ -45,9 +45,9 @@ function App() {
           </div>
 
           <div className='login-form-group'>
-            <Field name='password' className='form-field' placeholder='Senha' />
+            <Field name='senha' className='form-field' placeholder='Senha' />
 
-            <ErrorMessage component='span' name='password' className='form-error' />
+            <ErrorMessage component='span' name='senha' className='form-error' />
           </div>
 
           <button className='button' type='submit'>Login</button>
@@ -69,15 +69,15 @@ function App() {
           </div>
 
           <div className='login-form-group'>
-            <Field name='password' className='form-field' placeholder='Senha' />
+            <Field name='senha' className='form-field' placeholder='Senha' />
 
-            <ErrorMessage component='span' name='password' className='form-error' />
+            <ErrorMessage component='span' name='senha' className='form-error' />
           </div>
 
           <div className='login-form-group'>
-            <Field name='confirmPassword' className='form-field' placeholder='Confirme sua Senha' />
+            <Field name='confirmSenha' className='form-field' placeholder='Confirme sua Senha' />
 
-            <ErrorMessage component='span' name='confirmPassword' className='form-error' />
+            <ErrorMessage component='span' name='confirmSenha' className='form-error' />
           </div>
 
           <button className='button' type='submit'>Login</button>
