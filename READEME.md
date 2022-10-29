@@ -30,11 +30,11 @@
 
 - Nodemon - para que não haja necessidade de derrubar e subir o servidor a cada alteração
 
-    npm i nodemon
+        npm i nodemon
 
 - Axios - para consumo de api
 
-    npm i axios
+        npm i axios
 
 
 **SERVER/BACKEND**
@@ -75,8 +75,15 @@
 
 *Na criação da tabela de usuários é necessário definir o campo da senha com 200 caracteres para criptografia*
 
+*Pegando dados do formulário*
 
-**CLIENTE/FRONTEND**
+- Necessária confirguração
+
+        app.use(express.json());
+        app.use(cors());
+
+
+**CLIENT/FRONTEND**
 
 *Consumo da API com Axios*
 
