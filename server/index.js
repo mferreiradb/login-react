@@ -1,8 +1,16 @@
 const express = require('express');
 const app = express();
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "root",
+    database: "react_crud"
+});
 
 app.get('/', (req, res) => {
-    res.json({mensagem: "Hello world"})
+    res.json({mensagem: 'Conectado'})
 })
 
 app.listen(8080, () => {
