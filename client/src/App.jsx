@@ -5,15 +5,21 @@ import Axios from 'axios';
 
 function App() {
 
-  const handleClickLogin = (values) => console.log(values)
+  const handleClickLogin = (values) => {};
+  const handleClickCadastro = (values) => {
+    Axios.post('https://localhost:8080/login', {
+      email: values.email,
+      senha: values.password
+    }).then((res) => {
+      console.log(res);
+    });
+  };
 
 
   const validationLogin = yup.object().shape({
     email: yup.string().email().required('Este campo é obrigatório'),
     password: yup.string().min(8).required('Este campo é obrigatório'),
   });
-
-  const handleClickCadastro = (values) => console.log(values)
 
 
   const validationCadastro = yup.object().shape({

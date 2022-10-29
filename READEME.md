@@ -78,3 +78,15 @@
 
 **CLIENTE/FRONTEND**
 
+*Consumo da API com Axios*
+
+- A variável Axios executa o método http desejado, passando como valor o endpoint e um objeto com o nome do campo na tabela e de onde vem seu valor, através do parâmetro value, onde será indicado o nome do componente inserido no atributo name
+
+        const handleClickCadastro = (values) => {
+        Axios.post('https://localhost:8080/login', {
+        email: values.email,
+        senha: values.password
+        }).then((res) => {
+        console.log(res);
+        });
+        };
