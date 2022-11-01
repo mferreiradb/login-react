@@ -13,15 +13,35 @@ const db = mysql.createConnection({
 app.use(express.json());
 app.use(cors());
 
+app.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    db.connect((err) => {
+
+        let sql = "SELECT * FROM users WHERE email = ? AND senha = ?";
+
+        db.query(sql, [email, senha], (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
+    })
+})
+
 app.post('/cad', (req, res) => {
+
     const email = req.body.email;
     const senha = req.body.senha;
 
-    db.connect(function (err) {
+    db.connect((err) => {
+        
         if (err) throw err;
+        
         console.log("Connected!");
+        
         let sql = "SELECT * FROM users WHERE email = ?";
-        let insert = "INSERT INTO users (email, senha) VALUES (?, ?) "
+        let insert = "INSERT INTO users (email, senha) VALUES (?, ?)";
+        
         db.query(sql, [email], (err, result) => {
             if (err) throw err;
             if (result.length == 0) {
