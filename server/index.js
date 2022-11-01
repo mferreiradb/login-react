@@ -15,15 +15,21 @@ app.use(cors());
 
 app.post('/login', (req, res) => {
     const email = req.body.email;
-    const password = req.body.password;
+    const senha = req.body.senha;
 
-    db.connect((err) => {
+    db.connect(() => {
 
         let sql = "SELECT * FROM users WHERE email = ? AND senha = ?";
 
         db.query(sql, [email, senha], (err, result) => {
-            if (err) throw err;
-            res.send(result)
+            if (err) {
+                res.send(err)
+            }
+            if (result.length > 0) {
+                res.send({ msg: "Usuário logado" })
+            } else {
+                res.send({ msg: "Conta não encontrada" })
+            }
         })
     })
 })
@@ -33,24 +39,26 @@ app.post('/cad', (req, res) => {
     const email = req.body.email;
     const senha = req.body.senha;
 
-    db.connect((err) => {
-        
-        if (err) throw err;
-        
+    db.connect(() => {
+
         console.log("Connected!");
-        
+
         let sql = "SELECT * FROM users WHERE email = ?";
         let insert = "INSERT INTO users (email, senha) VALUES (?, ?)";
-        
+
         db.query(sql, [email], (err, result) => {
-            if (err) throw err;
+            if (err) {
+                res.send(err)
+            }
             if (result.length == 0) {
                 db.query(insert, [email, senha], (err, result) => {
-                    if (err) throw err;
-                    res.send({msg: 'Usuário cadastrado'})
+                    if (err) {
+                        res.send(err)
+                    }
+                    res.send({ msg: 'Usuário cadastrado' })
                 })
             } else {
-                res.send({msg: 'Usuário já cadastrado'})
+                res.send({ msg: 'Usuário já cadastrado' })
             }
         });
     });

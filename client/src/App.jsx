@@ -88,7 +88,7 @@ function App() {
             <ErrorMessage component='span' name='confirmSenha' className='form-error' />
           </div>
 
-          <button className='button' type='submit'>Login</button>
+          <button className='button' type='submit'>Cadastrar</button>
         </Form>
       </Formik>
     </div>
