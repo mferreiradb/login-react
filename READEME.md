@@ -36,6 +36,10 @@
 
         npm i axios
 
+- BCrypt - para criptografia da senha
+
+        npm i bcrypt
+
 
 **SERVER/BACKEND**
 
@@ -115,6 +119,49 @@
 
         })
 
+*CRIPTOGRAFIA DA SENHA*
+
+- Usada a biblioteca BCrypt
+
+        const bcrypt = require('bcrypt');
+        const saltRounds = 10;
+
+- O comando de inserção dos dados no banco é realocado para dentro de uma função atribuida à variável bcrypt
+- Passa-se a enviar para o banco de dados não mais a senha, mas a sua versão encriptada
+
+        app.post('/cad', (req, res) => {
+
+        const email = req.body.email;
+        const senha = req.body.senha;
+
+        db.connect(() => {
+
+        console.log("Connected!");
+
+        let select = "SELECT * FROM users WHERE email = ?";
+        let insert = "INSERT INTO users (email, senha) VALUES (?, ?)";
+
+        db.query(select, [email], (err, result) => {
+        if (err) {
+        res.send(err)
+        }
+        if (result.length == 0) {
+        bcrypt.hash(senha, saltRounds, (err, hash) => {
+        db.query(insert, [email, hash], (err, result) => {
+        if (err) {
+        res.send(err)
+        }
+        res.send({ msg: 'Usuário cadastrado' })
+        })
+        })
+
+        } else {
+        res.send({ msg: 'Usuário já cadastrado' })
+        }
+        });
+        });
+
+        })
 
 **CLIENT/FRONTEND**
 

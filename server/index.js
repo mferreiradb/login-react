@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -43,20 +45,23 @@ app.post('/cad', (req, res) => {
 
         console.log("Connected!");
 
-        let sql = "SELECT * FROM users WHERE email = ?";
+        let select = "SELECT * FROM users WHERE email = ?";
         let insert = "INSERT INTO users (email, senha) VALUES (?, ?)";
 
-        db.query(sql, [email], (err, result) => {
+        db.query(select, [email], (err, result) => {
             if (err) {
                 res.send(err)
             }
             if (result.length == 0) {
-                db.query(insert, [email, senha], (err, result) => {
-                    if (err) {
-                        res.send(err)
-                    }
-                    res.send({ msg: 'Usuário cadastrado' })
+                bcrypt.hash(senha, saltRounds, (err, hash) => {
+                    db.query(insert, [email, hash], (err, result) => {
+                        if (err) {
+                            res.send(err)
+                        }
+                        res.send({ msg: 'Usuário cadastrado' })
+                    })
                 })
+
             } else {
                 res.send({ msg: 'Usuário já cadastrado' })
             }
