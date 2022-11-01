@@ -5,7 +5,15 @@ import Axios from 'axios';
 
 function App() {
 
-  const handleClickLogin = (values) => {};
+  const handleClickLogin = (values) => {
+    Axios.post('http://localhost:8080/login', {
+      email: values.email,
+      senha: values.senha
+    }).then((res) => {
+      console.log(res)
+    })
+  };
+
   const handleClickCadastro = (values) => {
     Axios.post('http://localhost:8080/cad', {
       email: values.email,

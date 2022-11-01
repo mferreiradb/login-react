@@ -20,14 +20,21 @@ app.post('/cad', (req, res) => {
     db.connect(function (err) {
         if (err) throw err;
         console.log("Connected!");
-        var sql = "SELECT * FROM users WHERE email = ?";
+        let sql = "SELECT * FROM users WHERE email = ?";
+        let insert = "INSERT INTO users (email, senha) VALUES (?, ?) "
         db.query(sql, [email], (err, result) => {
-        if (err) throw err;
-        console.log("1 record inserted");
-        res.send(result)
+            if (err) throw err;
+            if (result.length == 0) {
+                db.query(insert, [email, senha], (err, result) => {
+                    if (err) throw err;
+                    res.send({msg: 'Usuário cadastrado'})
+                })
+            } else {
+                res.send({msg: 'Usuário já cadastrado'})
+            }
         });
-        });
-        
+    });
+
 })
 
 app.get('/', (req, res) => {

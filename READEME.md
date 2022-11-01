@@ -84,21 +84,35 @@
 
 - Dentro da função connect() chamada pelo db, executa-se a função desejada. A função deve ser executada na rota desejada
 
+- Nesse caso, para o formulário de login, podemos realizar um select para verificar se o email sendo cadastradojá existe e apenas caso não exista, fazer o cadastro de fato
+
         app.post('/cad', (req, res) => {
+
         const email = req.body.email;
         const senha = req.body.senha;
 
-        db.connect(function (err) {
-                if (err) throw err;
-                console.log("Connected!");
-                var sql = "SELECT * FROM users WHERE email = ?";
-                db.query(sql, [email], (err, result) => {
-                if (err) throw err;
-                console.log("1 record inserted");
-                res.send(result)
-                });
-                });
-                
+        db.connect((err) => {
+
+        if (err) throw err;
+
+        console.log("Connected!");
+
+        let sql = "SELECT * FROM users WHERE email = ?";
+        let insert = "INSERT INTO users (email, senha) VALUES (?, ?)";
+
+        db.query(sql, [email], (err, result) => {
+        if (err) throw err;
+        if (result.length == 0) {
+        db.query(insert, [email, senha], (err, result) => {
+        if (err) throw err;
+        res.send({msg: 'Usuário cadastrado'})
+        })
+        } else {
+        res.send({msg: 'Usuário já cadastrado'})
+        }
+        });
+        });
+
         })
 
 
