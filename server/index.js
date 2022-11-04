@@ -21,16 +21,22 @@ app.post('/login', (req, res) => {
 
     db.connect(() => {
 
-        let sql = "SELECT * FROM users WHERE email = ? AND senha = ?";
+        let sql = "SELECT * FROM users WHERE email = ?";
 
-        db.query(sql, [email, senha], (err, result) => {
+        db.query(sql, [email], (err, result) => {
             if (err) {
                 res.send(err)
             }
             if (result.length > 0) {
-                res.send({ msg: "Usuário logado" })
+                bcrypt.compare(senha, result[0].senha, (err, result) => {
+                    if (result) {
+                        res.send({ msg: "Usuário logado" })
+                    } else {
+                        res.send({ msg: "Senha incorreta" })
+                    }
+                })
             } else {
-                res.send({ msg: "Conta não encontrada" })
+                res.send({ msg: "Email não encontrado" })
             }
         })
     })

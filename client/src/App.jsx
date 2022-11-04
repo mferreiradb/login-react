@@ -10,7 +10,7 @@ function App() {
       email: values.email,
       senha: values.senha
     }).then((res) => {
-      console.log(res)
+      alert(res.data.msg)
     })
   };
 
@@ -19,7 +19,7 @@ function App() {
       email: values.email,
       senha: values.senha
     }).then((res) => {
-      console.log(res);
+      alert(res.data.msg)
     });
   };
 

@@ -163,6 +163,35 @@
 
         })
 
+- Após a encriptação da senha, é necessário modificar o código para que, ao invés de buscar pela senha digitada pelo usuário, seja feita a comparação dos dados enviados com os dados que constam no Banco de Dados
+
+        app.post('/login', (req, res) => {
+        const email = req.body.email;
+        const senha = req.body.senha;
+
+        db.connect(() => {
+
+        let sql = "SELECT * FROM users WHERE email = ?";
+
+        db.query(sql, [email], (err, result) => {
+        if (err) {
+        res.send(err)
+        }
+        if (result.length > 0) {
+        bcrypt.compare(senha, result[0].senha, (err, result) => {
+        if (result) {
+        res.send({ msg: "Usuário logado" })
+        } else {
+        res.send({ msg: "Senha incorreta" })
+        }
+        })
+        } else {
+        res.send({ msg: "Email não encontrado" })
+        }
+        })
+        })
+        })
+
 **CLIENT/FRONTEND**
 
 *Consumo da API com Axios*
