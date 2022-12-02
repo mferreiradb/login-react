@@ -1,5 +1,5 @@
 # login-react
-Crud utilizando MYSQL, React e NodeJs
+Tela de login utilizando MYSQL, React e NodeJs
 
 **TÉCNOLOGIAS UTILIZADAS**
 
