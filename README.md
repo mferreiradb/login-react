@@ -15,10 +15,10 @@ Tela de login utilizando MYSQL, React e NodeJs
 
         npm i yup
 
-- Cors - para middleware conect/express
 
-        npm i cors
+- Axios - para consumo de api
 
+        npm i axios
 
 
 *BACK*
@@ -34,10 +34,10 @@ Tela de login utilizando MYSQL, React e NodeJs
 - Nodemon - para que não haja necessidade de derrubar e subir o servidor a cada alteração
 
         npm i nodemon
+        
+- Cors - para middleware conect/express
 
-- Axios - para consumo de api
-
-        npm i axios
+        npm i cors
 
 - BCrypt - para criptografia da senha
 
